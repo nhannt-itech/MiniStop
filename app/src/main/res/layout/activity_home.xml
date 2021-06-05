@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/yellowMinistop"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/layoutSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/ln_search_input"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_search_24"
+            android:layout_gravity="center_vertical"
+            android:background="?android:attr/selectableItemBackground"
+            android:layout_marginLeft="5dp"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Tìm sản phẩm"
+            android:textSize="25dp"
+            android:maxLines="1"
+            android:inputType="text"
+            android:layout_gravity="center_vertical"
+            android:textColorHint="#B3B3B3"
+            android:background="@null"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvHello"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:paddingBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:text="xin chào ...!" />
+
+
+    <ViewFlipper
+        android:id="@+id/viewFlipperAdvertise"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:inAnimation="@android:anim/slide_in_left"
+        android:outAnimation="@android:anim/slide_out_right">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/homeflipper1"
+            android:scaleType="fitXY"/>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/homeflipper2"
+            android:scaleType="fitXY"/>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/homeflipper3"
+            android:scaleType="fitXY"/>
+
+    </ViewFlipper>
+
+
+    <LinearLayout
+        android:id="@+id/linearLayoutCategoryProduct"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/blueMint"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/textViewCategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="★ DANH MỤC SẢN PHẨM"
+                    android:textSize="22dp"
+                    android:textColor="@color/whiteTextColor"
+                    android:layout_below="@id/viewFlipperAdvertise"/>
+            </LinearLayout>
+            <GridView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/gvCategoryListCustomer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:footerDividersEnabled="false"
+                android:padding="1dp"
+                android:numColumns="2"
+                android:scrollbars="vertical"
+                android:stretchMode="columnWidth"
+                app:layout_constraintTop_toBottomOf="@id/lnSearch"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/blueMint"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/textViewProduct"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="☪ SẢN PHẨM MỚI"
+                    android:textSize="22dp"
+                    android:textColor="@color/whiteTextColor"
+                    android:layout_below="@id/viewFlipperAdvertise"/>
+            </LinearLayout>
+
+            <GridView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/gvProductListCustomer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:footerDividersEnabled="false"
+                android:padding="1dp"
+                android:numColumns="2"
+                android:scrollbars="vertical"
+                android:stretchMode="columnWidth"
+                app:layout_constraintTop_toBottomOf="@id/lnSearch"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/linearLayoutMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/bottom_navigation"
+                style="@style/Widget.MaterialComponents.BottomNavigationView.Colored"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/blueMint"
+                app:menu="@menu/bottom_navigation_menu" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+</LinearLayout>
+
+
+
+

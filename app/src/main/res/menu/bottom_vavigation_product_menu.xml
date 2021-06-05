@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/back"
+        android:enabled="true"
+        android:icon="@drawable/ic_back"
+        android:title="Trở lại trang trước"/>
+    <item
+        android:id="@+id/add"
+        android:enabled="true"
+        android:icon="@drawable/ic_add_cart"
+        android:title="Thêm vào giỏ hàng"/>
+</menu>

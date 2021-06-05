@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/yellowMinistop"
+    tools:context=".area_admin.ProductListActivity">
+
+    <Button
+        android:id="@+id/buttonCreateCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:backgroundTint="@color/blueMinistop"
+        android:layout_margin="10dp"
+        android:text="TẠO DANH SÁCH" />
+
+    <TextView
+        android:id="@+id/textViewRecordCount"
+        android:gravity="center"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/buttonCreateCategory"
+        android:text="0 records found"
+        android:padding="1dp" />
+
+    <ScrollView
+        android:id="@+id/scrollViewRecords"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewRecordCount" >
+
+        <LinearLayout
+            android:id="@+id/linearLayoutRecords"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="20dp">
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>
