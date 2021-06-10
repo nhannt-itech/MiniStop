@@ -3,61 +3,51 @@ package hcmute.edu.vn.mssv18110328.customer_area;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import hcmute.edu.vn.mssv18110328.DatabaseHelper;
+import hcmute.edu.vn.mssv18110328.adapter.DatabaseHelper;
 import hcmute.edu.vn.mssv18110328.R;
 import hcmute.edu.vn.mssv18110328.models.Bill;
 import hcmute.edu.vn.mssv18110328.models.BillDetail;
-import hcmute.edu.vn.mssv18110328.models.Category;
 import hcmute.edu.vn.mssv18110328.models.Product;
 import hcmute.edu.vn.mssv18110328.utils.SharedPrefs;
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import static hcmute.edu.vn.mssv18110328.utils.Utility.CURRENT_ID;
-import static hcmute.edu.vn.mssv18110328.utils.Utility.CURRENT_NAME;
-import static hcmute.edu.vn.mssv18110328.utils.Utility.CURRENT_PRODUCT_ID;
 import static hcmute.edu.vn.mssv18110328.utils.Utility.FormatPrice;
-import static hcmute.edu.vn.mssv18110328.utils.Utility.INCOMPLETE_ORDER_STATUS;
 import static hcmute.edu.vn.mssv18110328.utils.Utility.convertCompressedByteArrayToBitmap;
 
 public class ProductActivity extends AppCompatActivity {
     DatabaseHelper dbHelper= null;
     Product product;
+    SimpleDateFormat formatterDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product);
         dbHelper = new DatabaseHelper(this, getFilesDir().getAbsolutePath());
+        formatterDate = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.add);
 
-        int id = Integer.parseInt(getIntent().getStringExtra(CURRENT_PRODUCT_ID));
+        int id = Integer.parseInt(getIntent().getStringExtra("current_product_id"));
         product = dbHelper.getProduct(id);
 
         ImageView ivImage = (ImageView) this.findViewById(R.id.ivImage);
@@ -76,16 +66,33 @@ public class ProductActivity extends AppCompatActivity {
                 switch (menuItem.getItemId())
                 {
                     case R.id.back:
-                        return true;
+                        finish();
                     case R.id.add:
-                        showDiaglogAdd();
+                        int curQuantityInCart = 0;
+                        int curUserId = Integer.parseInt(SharedPrefs.getInstance().get(CURRENT_ID, String.class));
+                        Bill curBill = dbHelper.getIncompleteBillByUserId(curUserId); //Lấy giỏ hàng
+                        if (curBill!=null)
+                        {
+                            BillDetail billDetail = dbHelper.getBillDetailByBillIdProductId(curBill.getId(), product.getId());
+                            if (billDetail != null)
+                            {
+                                curQuantityInCart = billDetail.getQuantity();
+                            }
+                        }
+                        if(curQuantityInCart<10)
+                        {
+                            showDiaglogAddInCart(curQuantityInCart);
+                        }
+                        else{
+                            Toast.makeText(getApplicationContext(), "Giỏ hàng chỉ có thể chứa tối đa 10 sản phẩm này!", Toast.LENGTH_SHORT).show();
+                        }
                 }
                 return false;
             }
         });
     }
 
-    public void showDiaglogAdd() {
+    public void showDiaglogAddInCart(int curQuantityInCart) {
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View formElementsView = inflater.inflate(R.layout.cart_input_form, null, false);
 
@@ -102,10 +109,7 @@ public class ProductActivity extends AppCompatActivity {
 
         btnMinus.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
-                if(Integer.parseInt(tvQuantity.getText().toString()) == 1) {
-                    tvPrice.setText(FormatPrice(product.getPrice()));
-                }
-                else{
+                if(Integer.parseInt(tvQuantity.getText().toString()) > 1) {
                     tvQuantity.setText( String.valueOf(Integer.parseInt(tvQuantity.getText().toString()) - 1) );
                     tvPrice.setText(FormatPrice(product.getPrice()* Integer.parseInt(tvQuantity.getText().toString())));
                 }
@@ -113,13 +117,12 @@ public class ProductActivity extends AppCompatActivity {
         });
         btnPlus.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
-                if(Integer.parseInt(tvQuantity.getText().toString()) == 10) {
-                    tvPrice.setText(FormatPrice(product.getPrice() * 10));
-                }
-                else{
+                if(Integer.parseInt(tvQuantity.getText().toString()) < (10 - curQuantityInCart)) {
                     tvQuantity.setText( String.valueOf(Integer.parseInt(tvQuantity.getText().toString()) + 1) );
                     tvPrice.setText(FormatPrice(product.getPrice()* Integer.parseInt(tvQuantity.getText().toString())));
                 }
+                else
+                    Toast.makeText(getApplicationContext(), "Giỏ hàng chỉ có thể chứa tối đa 10 sản phẩm này!", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -129,27 +132,30 @@ public class ProductActivity extends AppCompatActivity {
                 .setPositiveButton("Thêm",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
+
+                                Date date = new Date(System.currentTimeMillis());
+                                String dateBill = formatterDate.format(date);
+
                                 int curUserId = Integer.parseInt(SharedPrefs.getInstance().get(CURRENT_ID, String.class));
-                                Product curProduct = dbHelper.getProduct(Integer.parseInt(getIntent().getStringExtra(CURRENT_PRODUCT_ID)));
                                 if (!dbHelper.isUserHasCart(curUserId)){//User đã có giỏ hàng chưa
-                                    if (dbHelper.addBill(new Bill("", 0, curUserId, INCOMPLETE_ORDER_STATUS, "" )))
+                                    if (dbHelper.addBill(new Bill("", 0, curUserId, "incomplete", "" , dateBill))  )
                                         Toast.makeText(getApplicationContext(), "Bạn vừa tạo đơn hàng mới.", Toast.LENGTH_SHORT).show();
                                     else
                                         Toast.makeText(getApplicationContext(), "Thêm đơn hàng bị lỗi.", Toast.LENGTH_SHORT).show();
                                 }
                                 Bill curBill = dbHelper.getIncompleteBillByUserId(curUserId); //Lấy giỏ hàng
-                                if (dbHelper.isBillHasProduct(curBill.getId(), curProduct.getId()))
+                                if (dbHelper.isBillHasProduct(curBill.getId(), product.getId()))
                                 {
-                                    BillDetail billDetail = dbHelper.getBillDetailByBillIdProductId(curBill.getId(), curProduct.getId());
+                                    BillDetail billDetail = dbHelper.getBillDetailByBillIdProductId(curBill.getId(), product.getId());
                                     billDetail.setQuantity(billDetail.getQuantity() + Integer.parseInt(tvQuantity.getText().toString()));
-                                    billDetail.setPrice(curProduct.getPrice()*billDetail.getQuantity());
+                                    billDetail.setPrice(product.getPrice()*billDetail.getQuantity());
                                     if (dbHelper.updateBillDetail(billDetail))
                                         Toast.makeText(getApplicationContext(), "Bạn vừa cập nhật đơn hàng.", Toast.LENGTH_SHORT).show();
                                 }
                                 else{
-                                    BillDetail billDetail = new BillDetail(curProduct.getId(),
+                                    BillDetail billDetail = new BillDetail(product.getId(),
                                             Integer.parseInt(tvQuantity.getText().toString()),
-                                            Integer.parseInt(tvQuantity.getText().toString())*curProduct.getPrice(),
+                                            Integer.parseInt(tvQuantity.getText().toString())*product.getPrice(),
                                             curBill.getId());
                                     if(dbHelper.addBillDetail(billDetail)){
                                         Toast.makeText(getApplicationContext(), "Bạn vừa thêm vào đơn hàng.", Toast.LENGTH_SHORT).show();

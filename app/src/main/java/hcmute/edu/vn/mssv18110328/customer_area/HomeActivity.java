@@ -2,8 +2,6 @@ package hcmute.edu.vn.mssv18110328.customer_area;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -14,22 +12,15 @@ import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 import java.util.List;
 
-import hcmute.edu.vn.mssv18110328.CategoryListAdapter;
-import hcmute.edu.vn.mssv18110328.DatabaseHelper;
-import hcmute.edu.vn.mssv18110328.ProductListCustomerAdapter;
+import hcmute.edu.vn.mssv18110328.adapter.CategoryListAdapter;
+import hcmute.edu.vn.mssv18110328.adapter.DatabaseHelper;
+import hcmute.edu.vn.mssv18110328.adapter.ProductListCustomerAdapter;
 import hcmute.edu.vn.mssv18110328.R;
-import hcmute.edu.vn.mssv18110328.identity_area.LoginActivity;
-import hcmute.edu.vn.mssv18110328.identity_area.RegisterActivity;
 import hcmute.edu.vn.mssv18110328.models.Category;
 import hcmute.edu.vn.mssv18110328.models.Product;
 import hcmute.edu.vn.mssv18110328.utils.SharedPrefs;
-
-import static hcmute.edu.vn.mssv18110328.utils.Utility.CURRENT_CATEGORY_ID;
-import static hcmute.edu.vn.mssv18110328.utils.Utility.CURRENT_NAME;
-import static hcmute.edu.vn.mssv18110328.utils.Utility.CURRENT_PRODUCT_ID;
 
 public class HomeActivity extends AppCompatActivity {
     DatabaseHelper dbHelper= null;
@@ -42,7 +33,7 @@ public class HomeActivity extends AppCompatActivity {
 
         TextView tvHello = findViewById(R.id.tvHello);
 
-        tvHello.setText("Xin chào " + SharedPrefs.getInstance().get(CURRENT_NAME, String.class) + "!");
+        tvHello.setText("Xin chào " + SharedPrefs.getInstance().get("current_name", String.class) + "!");
 
         ViewFlipper viewFlipper = findViewById(R.id.viewFlipperAdvertise);
         viewFlipper.setFlipInterval(2000);
@@ -58,8 +49,8 @@ public class HomeActivity extends AppCompatActivity {
                 {
                     case R.id.home:
                         return true;
-                    case R.id.favorite:
-                        startActivity(new Intent(getApplicationContext(),HomeActivity.class));
+                    case R.id.bill:
+                        startActivity(new Intent(getApplicationContext(),BillListCustomerActivity.class));
                         overridePendingTransition(0,0);
                         return true;
                     case R.id.cart:
@@ -91,8 +82,9 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
-                long productId = parent.getItemIdAtPosition(position);
-                startActivity(new Intent(HomeActivity.this , ProductActivity.class).putExtra(CURRENT_PRODUCT_ID, String.valueOf(productId)));
+                Intent intentProduct = new Intent(HomeActivity.this , ProductActivity.class);
+                intentProduct.putExtra("current_product_id", String.valueOf(parent.getItemIdAtPosition(position)));
+                startActivity(intentProduct);
             }
         });
 
@@ -101,7 +93,7 @@ public class HomeActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
                 long categoryId = parent.getItemIdAtPosition(position);
-                startActivity(new Intent(HomeActivity.this , ProductListCustomerActivity.class).putExtra(CURRENT_CATEGORY_ID, String.valueOf(categoryId)));
+                startActivity(new Intent(HomeActivity.this , ProductListCustomerActivity.class).putExtra("current_category_id", String.valueOf(categoryId)));
             }
         });
     }

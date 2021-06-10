@@ -3,23 +3,17 @@ package hcmute.edu.vn.mssv18110328.identity_area;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
-import android.util.Patterns;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.io.IOException;
 
-import hcmute.edu.vn.mssv18110328.DatabaseHelper;
+import hcmute.edu.vn.mssv18110328.adapter.DatabaseHelper;
 import hcmute.edu.vn.mssv18110328.R;
 import hcmute.edu.vn.mssv18110328.customer_area.HomeActivity;
 import hcmute.edu.vn.mssv18110328.models.User;
@@ -65,11 +59,9 @@ public class LoginActivity extends AppCompatActivity {
             SharedPrefs.getInstance().put(CURRENT_NAME, curUser.getName());
 
             startActivity(new Intent(this,HomeActivity.class));
-//            overridePendingTransition(R.anim.slide_in_right,R.anim.stay);
             Toast.makeText(this, "Bạn đã đăng nhập vào tài khoản thành công!", Toast.LENGTH_SHORT).show();
         }else{
             Toast.makeText(this, "Tài khoản hoặc mật khẩu không đúng!", Toast.LENGTH_SHORT).show();
-
         }
     }
 

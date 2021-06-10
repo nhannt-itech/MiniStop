@@ -16,7 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import hcmute.edu.vn.mssv18110328.DatabaseHelper;
+import hcmute.edu.vn.mssv18110328.adapter.DatabaseHelper;
 import hcmute.edu.vn.mssv18110328.R;
 import hcmute.edu.vn.mssv18110328.models.Category;
 

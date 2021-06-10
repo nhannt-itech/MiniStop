@@ -1,15 +1,9 @@
 package hcmute.edu.vn.mssv18110328.models;
 
-public class Bill {
-    public Bill(int id, String address, double totalPrice, int userId, String status, String phone) {
-        this.id = id;
-        this.address = address;
-        this.totalPrice = totalPrice;
-        this.userId = userId;
-        this.status = status;
-        this.phone = phone;
-    }
+import java.time.DateTimeException;
+import java.util.Date;
 
+public class Bill {
     public int getId() {
         return id;
     }
@@ -58,19 +52,43 @@ public class Bill {
         this.phone = phone;
     }
 
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
     private int id;
     private String address;
     private double totalPrice;
+    private int userId;
+    private String status;
+    private String date;
 
-    public Bill(String address, double totalPrice, int userId, String status, String phone) {
+
+
+
+    public Bill(String address, double totalPrice, int userId, String status, String phone, String date) {
         this.address = address;
         this.totalPrice = totalPrice;
         this.userId = userId;
         this.status = status;
         this.phone = phone;
+        this.date = date;
     }
 
-    private int userId;
-    private String status;
     private String phone;
+
+    public Bill(int id, String address, double totalPrice, int userId, String status, String phone, String date) {
+        this.id = id;
+        this.address = address;
+        this.totalPrice = totalPrice;
+        this.userId = userId;
+        this.status = status;
+        this.phone = phone;
+        this.date = date;
+    }
+
 }

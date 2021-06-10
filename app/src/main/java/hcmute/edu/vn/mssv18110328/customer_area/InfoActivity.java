@@ -3,7 +3,7 @@ package hcmute.edu.vn.mssv18110328.customer_area;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import hcmute.edu.vn.mssv18110328.DatabaseHelper;
+import hcmute.edu.vn.mssv18110328.adapter.DatabaseHelper;
 import hcmute.edu.vn.mssv18110328.R;
 import hcmute.edu.vn.mssv18110328.models.User;
 import hcmute.edu.vn.mssv18110328.utils.SharedPrefs;
@@ -20,13 +20,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.theartofdev.edmodo.cropper.CropImage;
-
-import java.io.ByteArrayOutputStream;
 
 import static hcmute.edu.vn.mssv18110328.utils.Utility.CURRENT_ID;
 import static hcmute.edu.vn.mssv18110328.utils.Utility.CURRENT_NAME;
@@ -92,8 +89,8 @@ public class InfoActivity extends AppCompatActivity {
                         startActivity(new Intent(getApplicationContext(),HomeActivity.class));
                         overridePendingTransition(0,0);
                         return true;
-                    case R.id.favorite:
-                        startActivity(new Intent(getApplicationContext(),HomeActivity.class));
+                    case R.id.bill:
+                        startActivity(new Intent(getApplicationContext(),BillListCustomerActivity.class));
                         overridePendingTransition(0,0);
                         return true;
                     case R.id.cart:
@@ -124,6 +121,7 @@ public class InfoActivity extends AppCompatActivity {
         userIsLogin.setImage(getBitmapAsByteArray(bitmap));
 
         if (dbHelper.updateUser(userIsLogin)){
+            SharedPrefs.getInstance().put(CURRENT_NAME, userIsLogin.getName());
             Toast.makeText(this, "Thông tin bạn đã được cập nhật", Toast.LENGTH_SHORT).show();
         }
         else

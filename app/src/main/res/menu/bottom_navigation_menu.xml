@@ -6,10 +6,10 @@
         android:icon="@drawable/ic_home"
         android:title="Trang chủ"/>
     <item
-        android:id="@+id/favorite"
+        android:id="@+id/bill"
         android:enabled="true"
-        android:icon="@drawable/ic_star"
-        android:title="Yêu thích"/>
+        android:icon="@drawable/ic_bill"
+        android:title="Đơn hàng"/>
     <item
         android:id="@+id/cart"
         android:enabled="true"

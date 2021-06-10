@@ -1,4 +1,4 @@
-package hcmute.edu.vn.mssv18110328;
+package hcmute.edu.vn.mssv18110328.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -12,16 +12,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import java.util.List;
 
+import hcmute.edu.vn.mssv18110328.R;
 import hcmute.edu.vn.mssv18110328.models.Product;
 
+import static hcmute.edu.vn.mssv18110328.utils.Utility.FormatPrice;
 import static hcmute.edu.vn.mssv18110328.utils.Utility.convertCompressedByteArrayToBitmap;
 
-public class ProductListAdapter  extends BaseAdapter{
+public class ProductListCustomerAdapter  extends BaseAdapter{
     private List<Product> listData;
     private LayoutInflater layoutInflater;
     private Context context;
 
-    public ProductListAdapter(Context aContext,  List<Product> listData) {
+    public ProductListCustomerAdapter(Context aContext,  List<Product> listData) {
         this.context = aContext;
         this.listData = listData;
         layoutInflater = LayoutInflater.from(aContext);
@@ -45,7 +47,7 @@ public class ProductListAdapter  extends BaseAdapter{
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
-            convertView = layoutInflater.inflate(R.layout.product_item_layout, null);
+            convertView = layoutInflater.inflate(R.layout.product_item_customer_layout, null);
             holder = new ViewHolder();
             holder.image = (ImageView) convertView.findViewById(R.id.ivImage);
             holder.name = (TextView) convertView.findViewById(R.id.tvName);
@@ -59,7 +61,7 @@ public class ProductListAdapter  extends BaseAdapter{
 
         holder.image.setImageBitmap(convertCompressedByteArrayToBitmap(product.getImage()));
         holder.name.setText(product.getName());
-        holder.price.setText("Giá: " + product.getPrice().toString() +"VNĐ");
+        holder.price.setText("Giá: " + FormatPrice(product.getPrice()));
 
         return convertView;
     }

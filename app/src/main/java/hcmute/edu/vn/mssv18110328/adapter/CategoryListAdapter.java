@@ -1,4 +1,4 @@
-package hcmute.edu.vn.mssv18110328;
+package hcmute.edu.vn.mssv18110328.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import java.util.List;
 
+import hcmute.edu.vn.mssv18110328.R;
 import hcmute.edu.vn.mssv18110328.models.Category;
 import hcmute.edu.vn.mssv18110328.models.Product;
 import static hcmute.edu.vn.mssv18110328.utils.Utility.convertCompressedByteArrayToBitmap;

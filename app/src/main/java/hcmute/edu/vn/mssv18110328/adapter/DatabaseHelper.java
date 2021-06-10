@@ -1,4 +1,4 @@
-package hcmute.edu.vn.mssv18110328;
+package hcmute.edu.vn.mssv18110328.adapter;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -464,6 +464,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return deleteSuccessful;
     }
 
+    public int countBillDetailsInBill(int billId) {
+        SQLiteDatabase db = SQLiteDatabase.openDatabase(pathToSaveDBFile, null, SQLiteDatabase.OPEN_READWRITE);
+        String sql = "SELECT * FROM BillDetail WHERE BillId = " + billId;
+        int recordCount = db.rawQuery(sql, null).getCount();
+        db.close();
+        return recordCount;
+    }
+
     public Bill getBill(int id) {
         Bill bill = null;
         SQLiteDatabase db = SQLiteDatabase.openDatabase(pathToSaveDBFile, null, SQLiteDatabase.OPEN_READONLY);
@@ -476,30 +484,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     cursor.getDouble(2),
                     cursor.getInt(3),
                     cursor.getString(4),
-                    cursor.getString(5));
+                    cursor.getString(5),
+                    cursor.getString(6));
         }
         cursor.close();
         db.close();
         return bill;
     }
 
-    public Bill getBillByUserId(int userId) {
-        Bill bill = null;
+    public List<Bill> getBillsByUserId(int userId) {
         SQLiteDatabase db = SQLiteDatabase.openDatabase(pathToSaveDBFile, null, SQLiteDatabase.OPEN_READONLY);
-        String sql = "SELECT * FROM Bill WHERE UserId = " + userId;
-        Cursor cursor = db.rawQuery(sql, null);
-
-        if (cursor.moveToFirst()) {
-            bill = new Bill(cursor.getInt(0),
+        String query = "SELECT * FROM Bill WHERE Status != 'incomplete' AND UserId = " + userId;
+        Cursor cursor = db.rawQuery(query, null);
+        List<Bill> list = new ArrayList<Bill>();
+        while(cursor.moveToNext()) {
+            Bill bill = new Bill(cursor.getInt(0),
                     cursor.getString(1),
                     cursor.getDouble(2),
                     cursor.getInt(3),
                     cursor.getString(4),
-                    cursor.getString(5));
+                    cursor.getString(5),
+                    cursor.getString(6));
+            list.add(bill);
         }
-        cursor.close();
         db.close();
-        return bill;
+        return list;
     }
 
     public Bill getIncompleteBillByUserId(int userId) {
@@ -514,11 +523,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     cursor.getDouble(2),
                     cursor.getInt(3),
                     cursor.getString(4),
-                    cursor.getString(5));
+                    cursor.getString(5),
+                    cursor.getString(6));
         }
         cursor.close();
         db.close();
         return bill;
+    }
+
+    public int countBillsInUser(int userId) {
+        SQLiteDatabase db = SQLiteDatabase.openDatabase(pathToSaveDBFile, null, SQLiteDatabase.OPEN_READWRITE);
+        String sql = "SELECT * FROM Bill WHERE Status != 'incomplete' AND UserId = " + userId;
+        int recordCount = db.rawQuery(sql, null).getCount();
+        db.close();
+        return recordCount;
     }
 
     public List<Bill> getBills() {
@@ -532,7 +550,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     cursor.getDouble(2),
                     cursor.getInt(3),
                     cursor.getString(4),
-                    cursor.getString(5));
+                    cursor.getString(5),
+                    cursor.getString(6));
             list.add(bill);
         }
         db.close();
@@ -568,6 +587,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put("UserId", bill.getUserId());
         values.put("Status", bill.getStatus());
         values.put("Phone", bill.getPhone());
+        values.put("Date", bill.getDate());
         boolean updateSuccessful = db.update("Bill", values,
                 "Id = ?", new String[]{ String.valueOf(bill.getId()) }) > 0;
         db.close();
@@ -577,7 +597,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public boolean deleteBill(int id) {
         boolean deleteSuccessful = false;
         SQLiteDatabase db = SQLiteDatabase.openDatabase(pathToSaveDBFile, null, SQLiteDatabase.OPEN_READWRITE);
-        deleteSuccessful = db.delete("BillDetail", "Id ='" + id + "'", null) > 0;
+        deleteSuccessful = db.delete("Bill", "Id ='" + id + "'", null) > 0;
         db.close();
         return deleteSuccessful;
     }

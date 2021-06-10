@@ -1,4 +1,4 @@
-package hcmute.edu.vn.mssv18110328;
+package hcmute.edu.vn.mssv18110328.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,8 +8,10 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
+import hcmute.edu.vn.mssv18110328.R;
 import hcmute.edu.vn.mssv18110328.models.BillDetail;
 import hcmute.edu.vn.mssv18110328.models.Product;
 
