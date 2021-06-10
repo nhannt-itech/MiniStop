@@ -662,6 +662,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public boolean addUser(User user) {
         SQLiteDatabase db = SQLiteDatabase.openDatabase(pathToSaveDBFile, null, SQLiteDatabase.OPEN_READWRITE);
         ContentValues values = new ContentValues();
+
+        String test = md5(user.getPassword());
+
         values.put("Name", user.getName());
         values.put("Username", user.getUsername()  );
         values.put("Email", user.getEmail());
@@ -678,7 +681,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put("Name", user.getName());
         values.put("Username", user.getUsername()  );
         values.put("Email", user.getEmail());
-        values.put("Password", md5(user.getPassword()));
+        values.put("Password", user.getPassword());
         values.put("Image", user.getImage());
         boolean updateSuccessful = db.update("User", values,
                 "Id = ?", new String[]{ String.valueOf(user.getId()) }) > 0;

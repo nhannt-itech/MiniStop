@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -13,6 +14,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 
+import java.io.IOException;
+
+import hcmute.edu.vn.mssv18110328.ProductListActivity;
 import hcmute.edu.vn.mssv18110328.adapter.DatabaseHelper;
 import hcmute.edu.vn.mssv18110328.R;
 import hcmute.edu.vn.mssv18110328.customer_area.HomeActivity;
@@ -34,6 +38,30 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         changeStatusBarColor();
         dbHelper = new DatabaseHelper(this, getFilesDir().getAbsolutePath());
+        String userId = SharedPrefs.getInstance().get(CURRENT_ID, String.class);
+
+        User curUser = new User();
+        try {
+            curUser = dbHelper.getUser(Integer.parseInt(userId));
+        }
+        catch (Exception e) {
+        }
+
+        if (userId != "" && userId != null)
+        {
+            if (curUser.getEmail().equals("admin@gmail.com"))
+            {
+                startActivity(new Intent(this, ProductListActivity.class));
+                finish();
+                Toast.makeText(this, "Bạn đã đăng nhập vào tài khoản thành công!", Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                startActivity(new Intent(this,HomeActivity.class));
+                finish();
+                Toast.makeText(this, "Bạn đã đăng nhập vào tài khoản thành công!", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
     public void onLoginClick(View View){
         startActivity(new Intent(this,RegisterActivity.class));
@@ -58,8 +86,18 @@ public class LoginActivity extends AppCompatActivity {
             SharedPrefs.getInstance().put(CURRENT_ID, String.valueOf(curUser.getId()));
             SharedPrefs.getInstance().put(CURRENT_NAME, curUser.getName());
 
-            startActivity(new Intent(this,HomeActivity.class));
-            Toast.makeText(this, "Bạn đã đăng nhập vào tài khoản thành công!", Toast.LENGTH_SHORT).show();
+            if (curUser.getEmail().equals("admin@gmail.com"))
+            {
+                startActivity(new Intent(this, ProductListActivity.class));
+                finish();
+                Toast.makeText(this, "Bạn đã đăng nhập vào tài khoản thành công!", Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                startActivity(new Intent(this,HomeActivity.class));
+                finish();
+                Toast.makeText(this, "Bạn đã đăng nhập vào tài khoản thành công!", Toast.LENGTH_SHORT).show();
+            }
         }else{
             Toast.makeText(this, "Tài khoản hoặc mật khẩu không đúng!", Toast.LENGTH_SHORT).show();
         }

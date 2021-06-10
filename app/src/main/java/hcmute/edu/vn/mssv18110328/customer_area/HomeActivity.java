@@ -70,7 +70,14 @@ public class HomeActivity extends AppCompatActivity {
     }
     private void loadData()
     {
-        List<Product> lProduct = dbHelper.getProducts();
+        List<Product> lProduct;
+        int numberProduct = dbHelper.countProduct();
+
+        if (numberProduct>10)
+            lProduct = dbHelper.getProducts().subList(numberProduct - 11 , numberProduct - 1);
+        else
+            lProduct = dbHelper.getProducts();
+
         GridView gridView = (GridView) findViewById(R.id.gvProductListCustomer);
         gridView.setAdapter(new ProductListCustomerAdapter(getApplicationContext(), lProduct));
 

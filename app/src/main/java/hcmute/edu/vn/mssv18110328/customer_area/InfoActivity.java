@@ -2,13 +2,16 @@ package hcmute.edu.vn.mssv18110328.customer_area;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import hcmute.edu.vn.mssv18110328.adapter.DatabaseHelper;
 import hcmute.edu.vn.mssv18110328.R;
+import hcmute.edu.vn.mssv18110328.identity_area.LoginActivity;
 import hcmute.edu.vn.mssv18110328.models.User;
 import hcmute.edu.vn.mssv18110328.utils.SharedPrefs;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -16,10 +19,12 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -46,6 +51,7 @@ public class InfoActivity extends AppCompatActivity {
 
         dbHelper = new DatabaseHelper(this, getFilesDir().getAbsolutePath());
         mImageView = findViewById(R.id.iv_avatar);
+        TextView tvLogOut = findViewById(R.id.tvLogOut);
 
         EditText etName =  (EditText) findViewById(R.id.etName);
         EditText etUsername = (EditText) findViewById(R.id.etUsername);
@@ -61,6 +67,32 @@ public class InfoActivity extends AppCompatActivity {
 
         etUsername.setEnabled(false);
         etEmail.setEnabled(false);
+
+        tvLogOut.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case DialogInterface.BUTTON_POSITIVE:
+                                SharedPrefs.getInstance().put(CURRENT_ID, "");
+                                SharedPrefs.getInstance().put(CURRENT_NAME, null);
+                                startActivity(new Intent(InfoActivity.this, LoginActivity.class));
+                                finish();
+                                Toast.makeText(getApplicationContext(), "Bạn đăng xuất thành công!", Toast.LENGTH_SHORT).show();
+
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                break;
+                        }
+                    }
+                };
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(InfoActivity.this);
+                builder.setMessage("Đăng xuất tài khoản này?").setPositiveButton("Đăng Xuất", dialogClickListener)
+                        .setNegativeButton("Hủy", dialogClickListener).show();
+            }
+        });
 
         mImageView.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -114,19 +146,25 @@ public class InfoActivity extends AppCompatActivity {
 
         int idUserIsLogin = Integer.parseInt(SharedPrefs.getInstance().get(CURRENT_ID, String.class));
         User userIsLogin = dbHelper.getUser(idUserIsLogin);
+        String name = etName.getText().toString();
 
         userIsLogin.setName(etName.getText().toString());
-        userIsLogin.setUsername(etUsername.getText().toString());
-        userIsLogin.setEmail(etEmail.getText().toString());
         userIsLogin.setImage(getBitmapAsByteArray(bitmap));
 
-        if (dbHelper.updateUser(userIsLogin)){
-            SharedPrefs.getInstance().put(CURRENT_NAME, userIsLogin.getName());
-            Toast.makeText(this, "Thông tin bạn đã được cập nhật", Toast.LENGTH_SHORT).show();
-        }
-        else
+        if(TextUtils.isEmpty(name))
         {
-            Toast.makeText(this, "Gặp lỗi khi cập nhật thông tin.", Toast.LENGTH_SHORT).show();
+            etName.requestFocus();
+            etName.setError("Bạn phải nhập tên!");
+        }
+        else {
+            if (dbHelper.updateUser(userIsLogin)){
+                SharedPrefs.getInstance().put(CURRENT_NAME, userIsLogin.getName());
+                Toast.makeText(this, "Thông tin bạn đã được cập nhật", Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                Toast.makeText(this, "Gặp lỗi khi cập nhật thông tin.", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 

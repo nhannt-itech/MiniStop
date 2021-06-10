@@ -17,7 +17,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MiniStop">
-        <activity android:name=".customer_area.BillListCustomerActivity"></activity>
+        <activity android:name=".ProductListActivity">
+
+        </activity>
+        <activity android:name=".customer_area.BillListCustomerActivity" />
         <activity android:name=".customer_area.ProductActivity" />
         <activity
             android:name=".customer_area.InfoActivity"
@@ -25,27 +28,24 @@
         <activity
             android:name=".customer_area.CartActivity"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".area_admin.BrandListActivity" />
         <activity android:name=".customer_area.ProductListCustomerActivity" />
         <activity
             android:name=".customer_area.HomeActivity"
             android:windowSoftInputMode="adjustPan">
-            <!--ADD HERE!!!! >>>>>>>>>>-->
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".area_admin.ProductListActivity">
+
+            <!-- ADD HERE!!!! >>>>>>>>>> -->
 
         </activity>
-        <activity android:name=".area_admin.CategoryListActivity" />
         <activity android:name=".identity_area.ForgotPasswordActivity" />
         <activity
             android:name=".identity_area.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar">
-            <!--ADD HERE!!!! >>>>>>>>>>-->
 
+            <!-- ADD HERE!!!! >>>>>>>>>> -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".identity_area.RegisterActivity"

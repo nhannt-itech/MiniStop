@@ -14,7 +14,7 @@ import hcmute.edu.vn.mssv18110328.models.Category;
 import hcmute.edu.vn.mssv18110328.models.Product;
 import static hcmute.edu.vn.mssv18110328.utils.Utility.convertCompressedByteArrayToBitmap;
 
-public class CategoryListAdapter  extends BaseAdapter {
+public class    CategoryListAdapter  extends BaseAdapter {
     private List<Category> listData;
     private LayoutInflater layoutInflater;
     private Context context;

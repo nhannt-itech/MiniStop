@@ -13,7 +13,7 @@
         android:id="@+id/textViewCategory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="✎ Đơn hàng của bạn"
+        android:text="✎ Giỏ hàng của bạn"
         android:textSize="22dp"
         android:paddingLeft="20dp"
         android:textColor="@color/whiteTextColor"

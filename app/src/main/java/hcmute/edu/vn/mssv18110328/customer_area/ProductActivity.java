@@ -7,6 +7,7 @@ import hcmute.edu.vn.mssv18110328.adapter.DatabaseHelper;
 import hcmute.edu.vn.mssv18110328.R;
 import hcmute.edu.vn.mssv18110328.models.Bill;
 import hcmute.edu.vn.mssv18110328.models.BillDetail;
+import hcmute.edu.vn.mssv18110328.models.Brand;
 import hcmute.edu.vn.mssv18110328.models.Product;
 import hcmute.edu.vn.mssv18110328.utils.SharedPrefs;
 
@@ -35,6 +36,7 @@ import static hcmute.edu.vn.mssv18110328.utils.Utility.convertCompressedByteArra
 public class ProductActivity extends AppCompatActivity {
     DatabaseHelper dbHelper= null;
     Product product;
+    Brand brand;
     SimpleDateFormat formatterDate;
 
     @Override
@@ -49,16 +51,19 @@ public class ProductActivity extends AppCompatActivity {
 
         int id = Integer.parseInt(getIntent().getStringExtra("current_product_id"));
         product = dbHelper.getProduct(id);
+        brand = dbHelper.getBrand(product.getBrandId());
 
         ImageView ivImage = (ImageView) this.findViewById(R.id.ivImage);
         TextView tvName =  findViewById(R.id.tvName);
         TextView tvPrice = findViewById(R.id.tvPrice);
         TextView tvContent = findViewById(R.id.tvContent);
+        TextView tvBrand = findViewById(R.id.tvBrand);
 
         ivImage.setImageBitmap(convertCompressedByteArrayToBitmap(product.getImage()));
         tvName.setText(product.getName());
         tvContent.setText(product.getContent());
         tvPrice.setText(FormatPrice(product.getPrice()));
+        tvBrand.setText(brand.getName());
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
