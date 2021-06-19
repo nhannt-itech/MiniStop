@@ -4,13 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import java.io.IOException;
 import java.util.List;
 
-import hcmute.edu.vn.mssv18110328.adapter.DatabaseHelper;
+import hcmute.edu.vn.mssv18110328.DatabaseHelper;
 import hcmute.edu.vn.mssv18110328.adapter.ProductListCustomerAdapter;
 import hcmute.edu.vn.mssv18110328.R;
 import hcmute.edu.vn.mssv18110328.models.Product;
@@ -25,6 +27,8 @@ public class ProductListCustomerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_product_list_customer);
         categoryId = Integer.parseInt(getIntent().getStringExtra("current_category_id"));
         dbHelper = new DatabaseHelper(this, getFilesDir().getAbsolutePath());
+
+
 
         loadData();
     }

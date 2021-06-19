@@ -4,12 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import hcmute.edu.vn.mssv18110328.adapter.BillListCustomerAdapter;
-import hcmute.edu.vn.mssv18110328.adapter.DatabaseHelper;
+import hcmute.edu.vn.mssv18110328.DatabaseHelper;
 import hcmute.edu.vn.mssv18110328.R;
 import hcmute.edu.vn.mssv18110328.utils.SharedPrefs;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
@@ -28,6 +29,8 @@ public class BillListCustomerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bill_list_customer);
         dbHelper = new DatabaseHelper(this, getFilesDir().getAbsolutePath());
+
+
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.bill);

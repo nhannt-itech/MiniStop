@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -17,7 +16,7 @@ import android.widget.Toast;
 import java.io.IOException;
 
 import hcmute.edu.vn.mssv18110328.ProductListActivity;
-import hcmute.edu.vn.mssv18110328.adapter.DatabaseHelper;
+import hcmute.edu.vn.mssv18110328.DatabaseHelper;
 import hcmute.edu.vn.mssv18110328.R;
 import hcmute.edu.vn.mssv18110328.customer_area.HomeActivity;
 import hcmute.edu.vn.mssv18110328.models.User;
@@ -38,8 +37,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         changeStatusBarColor();
         dbHelper = new DatabaseHelper(this, getFilesDir().getAbsolutePath());
-        String userId = SharedPrefs.getInstance().get(CURRENT_ID, String.class);
 
+        String userId = SharedPrefs.getInstance().get(CURRENT_ID, String.class);
         User curUser = new User();
         try {
             curUser = dbHelper.getUser(Integer.parseInt(userId));

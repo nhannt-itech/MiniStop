@@ -16,7 +16,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -32,19 +31,13 @@ import android.widget.Toast;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import hcmute.edu.vn.mssv18110328.adapter.DatabaseHelper;
 import hcmute.edu.vn.mssv18110328.adapter.ProductListAdapter;
-import hcmute.edu.vn.mssv18110328.R;
-import hcmute.edu.vn.mssv18110328.customer_area.InfoActivity;
 import hcmute.edu.vn.mssv18110328.identity_area.LoginActivity;
-import hcmute.edu.vn.mssv18110328.models.Bill;
 import hcmute.edu.vn.mssv18110328.models.Brand;
 import hcmute.edu.vn.mssv18110328.models.Category;
 import hcmute.edu.vn.mssv18110328.models.Product;

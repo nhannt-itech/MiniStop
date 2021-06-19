@@ -1,4 +1,4 @@
-package hcmute.edu.vn.mssv18110328.adapter;
+package hcmute.edu.vn.mssv18110328;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -89,7 +89,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
     private int getVersionId() {
-        SQLiteDatabase db = SQLiteDatabase.openDatabase(pathToSaveDBFile, null, SQLiteDatabase.OPEN_READONLY);
+        SQLiteDatabase db = SQLiteDatabase.openDatabase(pathToSaveDBFile,
+                null, SQLiteDatabase.OPEN_READONLY);
         String query = "SELECT version_id FROM dbVersion";
         Cursor cursor = db.rawQuery(query, null);
         cursor.moveToFirst();
@@ -123,7 +124,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return list;
     }
 
-    public Category getCategory(int categoryId) {
+    public Category getCategory(int categoryId) { //Lấy danh sách các loại danh mục
         Category category = null;
         SQLiteDatabase db = SQLiteDatabase.openDatabase(pathToSaveDBFile, null, SQLiteDatabase.OPEN_READONLY);
         String sql = "SELECT * FROM Category WHERE Id = " + categoryId;
@@ -179,7 +180,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return deleteSuccessful;
     }
 
-    public Product getProduct(int productId) {
+    public Product getProduct(int productId) { //Lấy sản phẩm dựa trên id
         Product product = null;
         SQLiteDatabase db = SQLiteDatabase.openDatabase(pathToSaveDBFile, null, SQLiteDatabase.OPEN_READONLY);
         String sql = "SELECT * FROM Product WHERE Id = " + productId;
@@ -200,7 +201,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return product;
     }
 
-    public List<Product> getProducts() {
+    public List<Product> getProducts() { //Lấy danh sách tất cả sản phẩm
         SQLiteDatabase db = SQLiteDatabase.openDatabase(pathToSaveDBFile, null, SQLiteDatabase.OPEN_READONLY);
         String query = "SELECT * FROM Product";
         Cursor cursor = db.rawQuery(query, null);
@@ -220,7 +221,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return list;
     }
 
-    public List<Product> getProductsByCategoryId(int categoryId) {
+    public List<Product> getProductsByCategoryId(int categoryId) { //Lấy danh sách dựa trên mã danh mục
         SQLiteDatabase db = SQLiteDatabase.openDatabase(pathToSaveDBFile, null, SQLiteDatabase.OPEN_READONLY);
         String query = "SELECT * FROM Product WHERE CategoryId = " + categoryId;
         Cursor cursor = db.rawQuery(query, null);
@@ -240,7 +241,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return list;
     }
 
-    public  boolean addProduct(Product product) {
+    public  boolean addProduct(Product product) { //Thêm sản phẩm vào dữ liệu
         SQLiteDatabase db = SQLiteDatabase.openDatabase(pathToSaveDBFile, null, SQLiteDatabase.OPEN_READWRITE);
         ContentValues values = new ContentValues();
         values.put("Name", product.getName());
@@ -255,7 +256,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return createSuccessful;
     }
 
-    public  boolean updateProduct(Product product) {
+    public  boolean updateProduct(Product product) { //Cập nhật sản phẩm trong dữ liệu
         SQLiteDatabase db = SQLiteDatabase.openDatabase(pathToSaveDBFile, null, SQLiteDatabase.OPEN_READWRITE);
         ContentValues values = new ContentValues();
         values.put("Name", product.getName());
@@ -271,7 +272,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return updateSuccessful;
     }
 
-    public int countProduct() {
+    public int countProduct() { //Đếm sản phẩm hiện có trong danh sách
         SQLiteDatabase db = SQLiteDatabase.openDatabase(pathToSaveDBFile, null, SQLiteDatabase.OPEN_READWRITE);
         String sql = "SELECT * FROM Product";
         int recordCount = db.rawQuery(sql, null).getCount();
@@ -279,7 +280,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return recordCount;
     }
 
-    public boolean deleteProduct(int id) {
+    public boolean deleteProduct(int id) { //Xóa sản phẩm ra khỏi dữ liệu
         boolean deleteSuccessful = false;
         SQLiteDatabase db = SQLiteDatabase.openDatabase(pathToSaveDBFile, null, SQLiteDatabase.OPEN_READWRITE);
         deleteSuccessful = db.delete("Product", "Id ='" + id + "'", null) > 0;
@@ -287,13 +288,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return deleteSuccessful;
     }
 
-    public Brand getBrand(int brandId) {
-
+    public Brand getBrand(int brandId) { //Lấy danh mục dựa trên mã
         Brand brand = null;
         SQLiteDatabase db = SQLiteDatabase.openDatabase(pathToSaveDBFile, null, SQLiteDatabase.OPEN_READONLY);
         String sql = "SELECT * FROM Brand WHERE Id = " + brandId;
         Cursor cursor = db.rawQuery(sql, null);
-
         if (cursor.moveToFirst()) {
             brand = new Brand(cursor.getInt(0),
                     cursor.getString(1));
@@ -303,7 +302,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return brand;
     }
 
-    public List<Brand> getBrands() {
+    public List<Brand> getBrands() { //Lấy danh sách các danh mục
         SQLiteDatabase db = SQLiteDatabase.openDatabase(pathToSaveDBFile, null, SQLiteDatabase.OPEN_READONLY);
         String query = "SELECT * FROM Brand";
         Cursor cursor = db.rawQuery(query, null);
@@ -336,7 +335,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return updateSuccessful;
     }
 
-    public int countBrand() {
+    public int countBrand() { //Đếm danh mục có trong dữ liệu
         SQLiteDatabase db = SQLiteDatabase.openDatabase(pathToSaveDBFile, null, SQLiteDatabase.OPEN_READWRITE);
         String sql = "SELECT * FROM Brand";
         int recordCount = db.rawQuery(sql, null).getCount();
@@ -370,7 +369,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return billDetail;
     }
 
-    public List<BillDetail> getBillDetailByBillId(int billId) {
+    public List<BillDetail> getBillDetailByBillId(int billId) { //Lấy mục hóa đơn dựa trên mã hóa đơn
         SQLiteDatabase db = SQLiteDatabase.openDatabase(pathToSaveDBFile, null, SQLiteDatabase.OPEN_READONLY);
         String query = "SELECT * FROM BillDetail WHERE BillId = " + billId;
         Cursor cursor = db.rawQuery(query, null);
@@ -388,7 +387,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return list;
     }
 
-    public BillDetail getBillDetailByBillIdProductId(int billId, int productId) {
+    public BillDetail getBillDetailByBillIdProductId(int billId, int productId) { //Lấy mục hóa đơn dựa trên mã hóa đơn và mã sản phẩm
         BillDetail billDetail = null;
         SQLiteDatabase db = SQLiteDatabase.openDatabase(pathToSaveDBFile, null, SQLiteDatabase.OPEN_READONLY);
         String sql = "SELECT * FROM BillDetail WHERE BillId = " + billId + " AND ProductId = " +productId;
@@ -423,7 +422,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return list;
     }
 
-    public boolean isBillHasProduct(int billId, int productId) {
+    public boolean isBillHasProduct(int billId, int productId) { //Kiểm tra hóa đơn đã có sản phẩm này chưa
         SQLiteDatabase db = SQLiteDatabase.openDatabase(pathToSaveDBFile, null, SQLiteDatabase.OPEN_READWRITE);
         String sql = "SELECT * FROM BillDetail WHERE BillId = " + billId + " AND ProductId = " +productId;
         int recordCount = db.rawQuery(sql, null).getCount();
@@ -431,7 +430,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return (recordCount>0);
     }
 
-    public  boolean addBillDetail(BillDetail billDetail) {
+    public  boolean addBillDetail(BillDetail billDetail) { //Thêm mục hóa đơn vào hóa đơn
         SQLiteDatabase db = SQLiteDatabase.openDatabase(pathToSaveDBFile, null, SQLiteDatabase.OPEN_READWRITE);
         ContentValues values = new ContentValues();
         values.put("ProductId", billDetail.getProductId());
@@ -443,7 +442,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return createSuccessful;
     }
 
-    public  boolean updateBillDetail(BillDetail billDetail) {
+    public  boolean updateBillDetail(BillDetail billDetail) { //Cập nhật mục hóa đơn trên hóa đơn
         SQLiteDatabase db = SQLiteDatabase.openDatabase(pathToSaveDBFile, null, SQLiteDatabase.OPEN_READWRITE);
         ContentValues values = new ContentValues();
         values.put("ProductId", billDetail.getProductId());
@@ -456,7 +455,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return updateSuccessful;
     }
 
-    public boolean deleteBillDetail(int id) {
+    public boolean deleteBillDetail(int id) { //Xóa mục hóa đơn trên hóa đơn
         boolean deleteSuccessful = false;
         SQLiteDatabase db = SQLiteDatabase.openDatabase(pathToSaveDBFile, null, SQLiteDatabase.OPEN_READWRITE);
         deleteSuccessful = db.delete("BillDetail", "Id ='" + id + "'", null) > 0;
@@ -464,7 +463,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return deleteSuccessful;
     }
 
-    public int countBillDetailsInBill(int billId) {
+    public int countBillDetailsInBill(int billId) { //Đếm mục hóa đơn trên hóa đơn
         SQLiteDatabase db = SQLiteDatabase.openDatabase(pathToSaveDBFile, null, SQLiteDatabase.OPEN_READWRITE);
         String sql = "SELECT * FROM BillDetail WHERE BillId = " + billId;
         int recordCount = db.rawQuery(sql, null).getCount();
@@ -492,7 +491,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return bill;
     }
 
-    public List<Bill> getBillsByUserId(int userId) {
+    public List<Bill> getBillsByUserId(int userId) { //Lấy hóa đơn dựa trên UserId
         SQLiteDatabase db = SQLiteDatabase.openDatabase(pathToSaveDBFile, null, SQLiteDatabase.OPEN_READONLY);
         String query = "SELECT * FROM Bill WHERE Status != 'incomplete' AND UserId = " + userId;
         Cursor cursor = db.rawQuery(query, null);
@@ -511,7 +510,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return list;
     }
 
-    public Bill getIncompleteBillByUserId(int userId) {
+    public Bill getIncompleteBillByUserId(int userId) { //Lấy giỏ hàng dựa trên UserId
         Bill bill = null;
         SQLiteDatabase db = SQLiteDatabase.openDatabase(pathToSaveDBFile, null, SQLiteDatabase.OPEN_READONLY);
         String sql = "SELECT * FROM Bill WHERE Status = 'incomplete' AND UserId = " + userId;
@@ -531,7 +530,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return bill;
     }
 
-    public int countBillsInUser(int userId) {
+    public int countBillsInUser(int userId) { //Đếm hóa đơn của User
         SQLiteDatabase db = SQLiteDatabase.openDatabase(pathToSaveDBFile, null, SQLiteDatabase.OPEN_READWRITE);
         String sql = "SELECT * FROM Bill WHERE Status != 'incomplete' AND UserId = " + userId;
         int recordCount = db.rawQuery(sql, null).getCount();
@@ -558,7 +557,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return list;
     }
 
-    public boolean isUserHasCart(int userId) {
+    public boolean isUserHasCart(int userId) { //Kiểm tra User hiện đang có giỏ hàng không
         SQLiteDatabase db = SQLiteDatabase.openDatabase(pathToSaveDBFile, null, SQLiteDatabase.OPEN_READWRITE);
         String sql = "SELECT * FROM Bill WHERE Status = 'incomplete' AND UserId =" + userId;
         int recordCount = db.rawQuery(sql, null).getCount();
@@ -566,7 +565,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return (recordCount>0);
     }
 
-    public  boolean addBill(Bill bill) {
+    public  boolean addBill(Bill bill) { //Thêm giỏ hàng
         SQLiteDatabase db = SQLiteDatabase.openDatabase(pathToSaveDBFile, null, SQLiteDatabase.OPEN_READWRITE);
         ContentValues values = new ContentValues();
         values.put("Address", bill.getAddress());
@@ -579,7 +578,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return createSuccessful;
     }
 
-    public  boolean updateBill(Bill bill) {
+    public  boolean updateBill(Bill bill) { //Cập nhật giỏ hàng, hóa đơn
         SQLiteDatabase db = SQLiteDatabase.openDatabase(pathToSaveDBFile, null, SQLiteDatabase.OPEN_READWRITE);
         ContentValues values = new ContentValues();
         values.put("Address", bill.getAddress());
@@ -594,7 +593,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return updateSuccessful;
     }
 
-    public boolean deleteBill(int id) {
+    public boolean deleteBill(int id) { //Xóa giỏ hàng
         boolean deleteSuccessful = false;
         SQLiteDatabase db = SQLiteDatabase.openDatabase(pathToSaveDBFile, null, SQLiteDatabase.OPEN_READWRITE);
         deleteSuccessful = db.delete("Bill", "Id ='" + id + "'", null) > 0;
@@ -602,7 +601,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return deleteSuccessful;
     }
 
-    public User getUser(int userId) {
+    public User getUser(int userId) { //Lấy User bằng mã User
 
         User user = null;
         SQLiteDatabase db = SQLiteDatabase.openDatabase(pathToSaveDBFile, null, SQLiteDatabase.OPEN_READONLY);
@@ -622,7 +621,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return user;
     }
 
-    public User getUser(String email) {
+    public User getUser(String email) { //Lấy User bằng Email
         User user = null;
         SQLiteDatabase db = SQLiteDatabase.openDatabase(pathToSaveDBFile, null, SQLiteDatabase.OPEN_READONLY);
         String sql = "SELECT * FROM User WHERE Email = '" + email + "'";
@@ -641,7 +640,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return user;
     }
 
-    public List<User> getUsers() {
+    public List<User> getUsers() { //Lấy danh sách User
         SQLiteDatabase db = SQLiteDatabase.openDatabase(pathToSaveDBFile, null, SQLiteDatabase.OPEN_READONLY);
         String query = "SELECT * FROM User";
         Cursor cursor = db.rawQuery(query, null);
@@ -659,12 +658,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return list;
     }
 
-    public boolean addUser(User user) {
+    public boolean addUser(User user) { //Đăng ký User
         SQLiteDatabase db = SQLiteDatabase.openDatabase(pathToSaveDBFile, null, SQLiteDatabase.OPEN_READWRITE);
         ContentValues values = new ContentValues();
-
         String test = md5(user.getPassword());
-
         values.put("Name", user.getName());
         values.put("Username", user.getUsername()  );
         values.put("Email", user.getEmail());
@@ -675,7 +672,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return createSuccessful;
     }
 
-    public boolean updateUser(User user) {
+    public boolean updateUser(User user) { //Cập nhật User
         SQLiteDatabase db = SQLiteDatabase.openDatabase(pathToSaveDBFile, null, SQLiteDatabase.OPEN_READWRITE);
         ContentValues values = new ContentValues();
         values.put("Name", user.getName());
@@ -698,7 +695,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public boolean usernameExists(String username) {
+    public boolean usernameExists(String username) { //Kiểm tra Username có tồn tại chưa
         SQLiteDatabase db = SQLiteDatabase.openDatabase(pathToSaveDBFile, null, SQLiteDatabase.OPEN_READWRITE);
         String sql = "SELECT * FROM User WHERE Username = '" + username + "'";
         int recordCount = db.rawQuery(sql, null).getCount();
@@ -709,7 +706,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return false;
     }
 
-    public boolean emailExists(String email) {
+    public boolean emailExists(String email) { //Kiểm tra Email có tồn tại chưa
         SQLiteDatabase db = SQLiteDatabase.openDatabase(pathToSaveDBFile, null, SQLiteDatabase.OPEN_READWRITE);
         String sql = "SELECT * FROM User WHERE Email = '" + email + "'";
         int recordCount = db.rawQuery(sql, null).getCount();
@@ -720,8 +717,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return false;
     }
 
-    public boolean loginIsSuccess(String email, String password)
-    {
+    public boolean loginIsSuccess(String email, String password) { //Đăng nhập
         SQLiteDatabase db = SQLiteDatabase.openDatabase(pathToSaveDBFile, null, SQLiteDatabase.OPEN_READWRITE);
         String sql = "SELECT * FROM User WHERE Email = '" + email + "'" + " AND Password = '" + md5(password) +"'" ;
         int recordCount = db.rawQuery(sql, null).getCount();

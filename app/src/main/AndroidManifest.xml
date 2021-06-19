@@ -40,7 +40,6 @@
         <activity
             android:name=".identity_area.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar">
-
             <!-- ADD HERE!!!! >>>>>>>>>> -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

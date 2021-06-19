@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import hcmute.edu.vn.mssv18110328.adapter.DatabaseHelper;
+import hcmute.edu.vn.mssv18110328.DatabaseHelper;
 import hcmute.edu.vn.mssv18110328.R;
 import hcmute.edu.vn.mssv18110328.identity_area.LoginActivity;
 import hcmute.edu.vn.mssv18110328.models.User;
